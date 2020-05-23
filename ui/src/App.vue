@@ -10,9 +10,14 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+    components: {
+      HelloWorld
+    },
+    mounted() {
+      this.$http.get('http://192.168.0.197:3000/test').then((response) => {
+        console.log(response.data);
+      });
+    }
 }
 </script>
 
