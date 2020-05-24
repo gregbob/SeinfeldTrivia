@@ -1,13 +1,20 @@
 <template>
   <div id="host">
-      HOST
+    <ul>
+      <li v-for="item in items" :key="item.message">
+        {{ item.message }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-
+import { mapState } from 'vuex';
 export default {
-  name: 'Host'
+  name: 'Host',
+    computed: {
+    ...mapState(['items'])
+  },
 }
 </script>
 
