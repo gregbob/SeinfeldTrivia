@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
         console.log(value);
     });
 
-    socket.emit('custom', {eventArgs: 'eventArgs'})
+    socket.emit('customEmit', {eventArgs: 'eventArgs'})
 });
 
 http.listen(3000, () => {
