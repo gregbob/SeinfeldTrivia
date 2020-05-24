@@ -1,17 +1,15 @@
 const app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const routes = require('./routes');
 
-
+// Remove CORS while developing
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 
-app.post('/create-room', (req, res) => res.send({
-  roomCode: '1234'
-}));
+app.use('/api', routes);
 
 io.on('connection', (socket) => {
   console.log('a user connected');

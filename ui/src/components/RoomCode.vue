@@ -17,7 +17,7 @@ export default {
     };
   },
   mounted() {
-    this.$http.post('http://192.168.0.197:3000/create-room').then((response) => {
+    this.$http.post('http://192.168.0.197:3000/api/room').then((response) => {
       console.log(response);
       this.roomCode = response.data.roomCode;
     }); 
