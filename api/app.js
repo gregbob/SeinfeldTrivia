@@ -1,6 +1,7 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -12,4 +13,20 @@ app.get('/test', (req, res) => res.send({
     test: "test"
 }));
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+       console.log('user disconnected'); 
+    });
+
+    socket.on('test', (value) => {
+        console.log(value);
+    });
+
+    socket.emit('custom', {eventArgs: 'eventArgs'})
+});
+
+http.listen(3000, () => {
+    console.log('listening on *:3000');
+});

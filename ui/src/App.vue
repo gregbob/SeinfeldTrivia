@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
@@ -9,15 +8,25 @@
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: 'App',
-    components: {
-      HelloWorld
+name: 'App',
+  components: {
+    HelloWorld
+  },
+  mounted() {
+    this.$http.get('http://192.168.0.197:3000/test').then((response) => {
+      console.log(response.data);
+    });
+
+    this.$socket.emit('test', 'hello');
+  },
+  sockets: {
+    connect: function () {
+      console.log('socket connected!');
     },
-    mounted() {
-      this.$http.get('http://192.168.0.197:3000/test').then((response) => {
-        console.log(response.data);
-      });
+    custom: function () {
+      console.log('custom emit');
     }
+  }
 }
 </script>
 
