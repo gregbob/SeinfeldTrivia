@@ -2,6 +2,12 @@
   <div id="host">
     <div v-if="currentState == GameState.SETUP">      
       <room-code> </room-code>
+      USERS
+      <ul>
+        <li v-for="user in room.users" :key="user">
+          {{ user }}
+        </li>
+      </ul>
     </div>
     <div v-else>
       <ul>
@@ -33,7 +39,7 @@ export default {
     console.log(GameState);
   },
   computed: {
-    ...mapState(['items'])
+    ...mapState(['items', 'room'])
   },
 }
 </script>

@@ -4,6 +4,11 @@ const createRoom = async () => {
   }
 }
 
+const validateRoomExists = async (roomCode) => {
+  return true;
+}
+
 module.exports = {
-  createRoom
+  createRoom,
+  validateRoomExists
 }

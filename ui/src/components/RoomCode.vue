@@ -8,15 +8,18 @@
 /**
  * This component should be responsible for retrieving the room code from the server and displaying it
  */
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'RoomCode',
   computed: {
     ...mapState(['room'])
   },
+  methods: {
+    ...mapActions(['createRoom'])
+  },
   mounted() {
-    this.$socket.emit('create-room');
+    this.createRoom();
   }
 }
 </script>

@@ -1,19 +1,37 @@
 const { roomService } = require('../services');
 
-const createRoom = async (data, socket) => {
+const createRoom = async (socket) => {
   try {
     const response = await roomService.createRoom();
-
-    console.log(`Joining room ${response.roomCode}`);
     socket.join(response.roomCode);
 
-    socket.emit('roomCreated', response);
-    
+    return response;
   } catch(e) {
     console.log(e.message)
   }
 }
 
+const joinRoom = async (data, socket) => {
+  try {
+    // Validate room exists
+    if (!roomService.validateRoomExists()) {
+      return false;
+    }
+    // Add user to room
+    console.log(`Joining room ${data.roomCode}`);
+    socket.join(data.roomCode);
+
+    // Broadcast that user joined this room
+    socket.to(data.roomCode).emit('roomJoined', data)
+
+    return true;
+
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
 module.exports = {
-  createRoom
+  createRoom,
+  joinRoom
 }
