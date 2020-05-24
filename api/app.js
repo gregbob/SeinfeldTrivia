@@ -9,8 +9,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/test', (req, res) => res.send({
-  test: "test"
+app.post('/create-room', (req, res) => res.send({
+  roomCode: '1234'
 }));
 
 io.on('connection', (socket) => {
