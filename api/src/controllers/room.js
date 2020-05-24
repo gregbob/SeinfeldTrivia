@@ -1,16 +1,19 @@
 const { roomService } = require('../services');
-const { createRoom } = roomService;
 
-const postRoom = async (req, res, next) => {
+const createRoom = async (data, socket) => {
   try {
-    const response = await createRoom();
-    res.send(response);
+    const response = await roomService.createRoom();
+
+    console.log(`Joining room ${response.roomCode}`);
+    socket.join(response.roomCode);
+
+    socket.emit('roomCreated', response);
+    
   } catch(e) {
     console.log(e.message)
-    res.sendStatus(500) && next(error)
   }
 }
 
 module.exports = {
-  postRoom
+  createRoom
 }

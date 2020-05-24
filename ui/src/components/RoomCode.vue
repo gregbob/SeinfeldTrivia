@@ -1,6 +1,6 @@
 <template>
   <div id="room-code">
-    Code: {{ roomCode }}
+    Code: {{ room.roomCode }}
   </div>
 </template>
 
@@ -8,19 +8,15 @@
 /**
  * This component should be responsible for retrieving the room code from the server and displaying it
  */
+import { mapState } from 'vuex';
 
 export default {
   name: 'RoomCode',
-  data() {
-    return {
-      roomCode: ''
-    };
+  computed: {
+    ...mapState(['room'])
   },
   mounted() {
-    this.$http.post('http://192.168.0.197:3000/api/room').then((response) => {
-      console.log(response);
-      this.roomCode = response.data.roomCode;
-    }); 
+    this.$socket.emit('create-room');
   }
 }
 </script>
