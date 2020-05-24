@@ -8,11 +8,16 @@
         {{ item.message }}
       </li>
     </ul>
+    <router-link to="/host">Go to Host</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import {
+  mapActions,
+  mapState
+} from 'vuex';
 
 export default {
   name: 'App',
