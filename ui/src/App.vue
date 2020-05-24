@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-    <button v-on:click="increment">
-      Increment
-    </button>
+    <input v-model="inputValue">
+    <button v-on:click="pushItem"> SUBMIT </button>
 
-    <button v-on:click="decrement">
-      Decrement
-    </button>
-
-    {{ count }}
+    <ul>
+      <li v-for="item in items" :key="item.message">
+        {{ item.message }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -17,17 +16,22 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      inputValue: ''
+    }
+  },
   methods: {
-    ...mapActions(['increment', 'decrement'])
+    ...mapActions([]),
+    pushItem() {
+      this.$socket.emit('addItem', this.inputValue);
+      this.inputValue = '';
+    }
   },
   computed: {
-    ...mapState(['count'])
+    ...mapState(['items'])
   },
   mounted() {
-    this.$http.get('http://192.168.0.197:3000/test').then((response) => {
-      console.log(response.data);
-    });
-
     this.$socket.emit('test', 'hello');
   },
   sockets: {

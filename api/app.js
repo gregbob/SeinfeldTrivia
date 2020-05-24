@@ -24,7 +24,11 @@ io.on('connection', (socket) => {
         console.log(value);
     });
 
-    socket.emit('customEmit', {eventArgs: 'eventArgs'})
+    socket.on('addItem', (value) => {
+        console.log(`added item ${value}`);
+        io.emit('addItem', { message: value});
+    })
+
 });
 
 http.listen(3000, () => {

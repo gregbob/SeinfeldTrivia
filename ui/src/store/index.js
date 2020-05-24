@@ -4,26 +4,21 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-    count: 0
+    items: []
 };
 
 const mutations = {
-    increment (state) {
-        state.count++;
-    },
-    decrement (state) {
-        state.count--;
+    addItem (state, item) {
+        state.items.push(item)
     }
 }
 
 const actions = {
-    increment: ({commit}) => commit('increment'),
-    decrement: ({commit}) => commit('decrement'),
-    SOCKET_customEmit: ({ commit }) => commit('increment')
+    SOCKET_addItem: ({ commit }, payload) => commit('addItem', payload)
 }
 
 const getters = {
-    doubleCount: state => state.count * 2
+    items: state => state.items
 }
 
 export default new Vuex.Store({
