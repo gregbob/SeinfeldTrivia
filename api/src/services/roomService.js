@@ -34,11 +34,13 @@ const createRoom = async (ownerId) => {
 }
 
 const validateRoomExists = (roomCode) => {
-  return roomCode in rooms;
+  const roomExists = roomCode in rooms;
+  logger(`Room: ${roomCode} exists`);
+  return roomExists;
 }
 
-const joinRoom = function (roomCode, name, id) {
-  const user = new User(name, id);
+const joinRoom = function (roomCode, userInfo, id) {
+  const user = new User(userInfo.name, id);
   rooms[roomCode].addUser(user);
   logger('Adding new user: %O to \nroom:%O', user, rooms[roomCode]);
 }
@@ -48,14 +50,9 @@ const startGame = function(roomCode) {
   return rooms[roomCode];
 }
 
-const getRoomByOwnerId = function (ownerId) {
-  return ownerMap[ownerId];
-}
-
 module.exports = {
   createRoom,
   validateRoomExists,
   joinRoom,
-  getRoomByOwnerId,
   startGame
 }
