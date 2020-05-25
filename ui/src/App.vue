@@ -9,9 +9,6 @@
 
 export default {
   name: 'App',
-  mounted() {
-    this.$socket.emit('test', 'hello');
-  },
   sockets: {
     connect: function () {
       console.log('socket connected!');

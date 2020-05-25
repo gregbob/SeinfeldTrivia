@@ -1,16 +1,13 @@
 <template>
   <div id="host">
-    <div v-if="currentState == GameState.SETUP">      
+    <div v-if="currentGameState == GameState.SETUP">      
       <room-code> </room-code>
       <user-list> </user-list>
+      <button v-on:click="startGame"> START GAME </button>
     </div>
-    <div v-else>
-      <ul>
-        <li v-for="item in items" :key="item.message">
-          {{ item.message }}
-        </li>
-      </ul>
-    </div> 
+    <div v-else-if="currentGameState == GameState.DISPLAY_QUESTION">
+      Where street does Jerry Seinfeld live on?
+    </div>
   </div>
 </template>
 
@@ -28,15 +25,16 @@ export default {
   },
   data() {
     return {
-      GameState,
-      currentState: GameState.SETUP
+      GameState
     };
   },
-  mounted() {
-    console.log(GameState);
+  methods: {
+    startGame() {
+      this.$socket.emit('startGame', {roomCode: this.room.roomCode});
+    }
   },
   computed: {
-    ...mapState(['items'])
+    ...mapState(['items', 'currentGameState', 'room'])
   },
 }
 </script>

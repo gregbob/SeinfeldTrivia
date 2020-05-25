@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import GameState from '../utils/gameState'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ const state = {
     roomCode: '',
     users: []
   },
+  currentGameState: GameState.SETUP 
 };
 
 const mutations = {
@@ -18,8 +20,11 @@ const mutations = {
   roomCreated(state, room) {
     state.room.roomCode = room.roomCode;
   },
-  roomJoined(state, payload) {
-    state.room.users.push(payload.playerName);
+  roomJoined(state, user) {
+    state.room.users.push(user.name);
+  },
+  updateGameState(state, gameState) {
+    state.currentGameState = gameState;
   }
 }
 
@@ -35,6 +40,9 @@ const actions = {
   SOCKET_roomJoined: ({commit }, payload) => {
     console.log(payload);
     commit('roomJoined', payload);
+  },
+  SOCKET_updateGameState: ({ commit }, gameState) => {
+    commit('updateGameState', gameState);
   }
 }
 

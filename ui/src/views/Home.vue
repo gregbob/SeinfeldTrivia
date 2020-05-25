@@ -3,10 +3,10 @@
     <router-link to="/host">Go to Host</router-link>
     <div id="join-info">
       <label> Name </label>
-      <input id="player-name" v-model="playerName">
+      <input id="user-name" v-model="userName">
       <label> Room Code </label>
       <input id="room-code" v-model="roomCode">
-      <button v-on:click="joinRoom(playerName, roomCode)"> Join Room </button>
+      <button v-on:click="joinRoom(userName, roomCode)"> Join Room </button>
       <!-- <router-link to="/play">Join</router-link> -->
     </div>
   </div>
@@ -17,7 +17,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      playerName: '',
+      userName: '',
       roomCode: ''
     };
   },
@@ -25,13 +25,20 @@ export default {
     joinRoom() {
       const payload = {
         roomCode: this.roomCode,
-        playerName: this.playerName
+        user: {
+          name: this.userName
+        }
       };
       this.$socket.emit('joinRoom', payload, (response) => {
         if (response == true) {
           this.$router.push(`/play/${this.roomCode}`);
         }
       });
+    }
+  },
+  sockets: {
+    updateGameState: function() {
+      console.log('Update');
     }
   }
 }

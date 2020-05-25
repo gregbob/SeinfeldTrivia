@@ -1,9 +1,13 @@
 const { roomService } = require('../services');
 
-const createRoom = async (socket) => {
+/**
+ * Responsible for handling socket orchestration
+ */
+
+const createRoom = async (context) => {
   try {
-    const response = await roomService.createRoom();
-    socket.join(response.roomCode);
+    const response = await roomService.createRoom(context.socket.id);
+    context.socket.join(response.roomCode);
 
     return response;
   } catch(e) {
@@ -11,18 +15,19 @@ const createRoom = async (socket) => {
   }
 }
 
-const joinRoom = async (data, socket) => {
+const joinRoom = async (data, context) => {
   try {
     // Validate room exists
-    if (!roomService.validateRoomExists()) {
+    if (!roomService.validateRoomExists(data.roomCode)) {
+      console.log('Failed to join room');
       return false;
     }
     // Add user to room
-    console.log(`Joining room ${data.roomCode}`);
-    socket.join(data.roomCode);
+    roomService.joinRoom(data.roomCode, data.user, context.socket.id);
+    context.socket.join(data.roomCode);
 
     // Broadcast that user joined this room
-    socket.to(data.roomCode).emit('roomJoined', data)
+    context.socket.to(data.roomCode).emit('roomJoined', data.user)
 
     return true;
 
@@ -31,7 +36,16 @@ const joinRoom = async (data, socket) => {
   }
 }
 
+const startGame = async (data, context) => {
+  try {
+    context.io.in(data.roomCode).emit('updateGameState', 'DISPLAY_QUESTION');
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
 module.exports = {
   createRoom,
-  joinRoom
+  joinRoom,
+  startGame
 }

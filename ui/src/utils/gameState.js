@@ -1,4 +1,4 @@
 export default {
-  SETUP: 1,
-  DISPLAY_QUESTION: 2
+  SETUP: 'SETUP',
+  DISPLAY_QUESTION: 'DISPLAY_QUESTION'
 };
