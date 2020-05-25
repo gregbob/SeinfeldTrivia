@@ -8,7 +8,6 @@ const createRoom = async (context) => {
   try {
     const response = await roomService.createRoom(context.socket.id);
     context.socket.join(response.roomCode);
-
     return response;
   } catch(e) {
     console.log(e.message)
@@ -38,7 +37,8 @@ const joinRoom = async (data, context) => {
 
 const startGame = async (data, context) => {
   try {
-    context.io.in(data.roomCode).emit('updateGameState', 'DISPLAY_QUESTION');
+    const response = roomService.startGame(data.roomCode);
+    context.io.in(response.roomCode).emit('updateGameState', response.gameState);
   } catch (e) {
     console.log(e.message);
   }
