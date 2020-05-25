@@ -1,6 +1,8 @@
+const makeid = require('../utils/makeid');
+
 const createRoom = async () => {
   return {
-    roomCode: 1234
+    roomCode: makeid(4)
   }
 }
 
