@@ -21,6 +21,11 @@ module.exports.listen = function(context) {
     await roomController.startGame(data, context);
   });
 
+  context.socket.on('submitAnswer', async(data, callback) => {
+    logger('submitAnswer called with %O', data);
+    callback(await roomController.submitAnswer(data, context));
+  });
+
   context.socket.on('disconnect', async () => {
     logger(`${context.socket.id} disconnected`);
   })

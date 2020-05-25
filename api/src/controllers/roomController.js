@@ -32,20 +32,39 @@ const joinRoom = async (data, context) => {
 
   } catch (e) {
     logger(e.message);
+    return false;
   }
 }
 
 const startGame = async (data, context) => {
   try {
-    const response = roomService.startGame(data.roomCode);
-    context.io.in(response.roomCode).emit('updateGameState', response.gameState);
+    const room = roomService.startGame(data.roomCode);
+    context.io.in(room.roomCode).emit('updateGameState', room);
   } catch (e) {
     logger(e.message);
+  }
+}
+
+const submitAnswer = async (data, context) => {
+  try {
+    const room = roomService.submitAnswer(data.roomCode, context.socket.id, data.answer);
+    logger('Result of room after submitting answer: %O', room);
+
+    if (room.gameState == 'ANSWER') {
+      logger('Emitting updateGameState event with payload: %O', room);
+      context.io.in(room.roomCode).emit('updateGameState', room);
+    }
+    
+    return true;
+  } catch (e) {
+    logger(e.message);
+    return false;
   }
 }
 
 module.exports = {
   createRoom,
   joinRoom,
-  startGame
+  startGame,
+  submitAnswer
 }

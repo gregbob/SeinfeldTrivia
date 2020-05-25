@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import GameState from '../utils/gameState'
 import RoomCode from '../components/RoomCode'
 import UserList from '../components/UserList'
@@ -33,11 +33,12 @@ export default {
   },
   methods: {
     startGame() {
-      this.$socket.emit('startGame', {roomCode: this.room.roomCode});
+      this.$socket.emit('startGame', { roomCode: this.room.roomCode });
     }
   },
   computed: {
-    ...mapState(['items', 'currentGameState', 'room'])
+    ...mapState(['items', 'room']),
+    ...mapGetters(['currentGameState'])
   },
 }
 </script>

@@ -1,28 +1,9 @@
 const User = require('./user'); 
+const Room = require('./room'); 
 const makeid = require('../utils/makeid');
 const logger = require('../utils/logger').extend('roomService');
+
 const rooms = {}
-
-class Room {
-  constructor(roomCode, ownerId) {
-    this.roomCode = roomCode;
-    this.ownerId = ownerId;
-    this.gameState = 'SETUP';
-    this.users = [];
-  }
-
-  addUser(user) {
-    this.users.push(user);
-  }
-
-  enterQuestionState() {
-    this.gameState = 'QUESTION';
-    // Reset user answers
-    this.users.forEach(user => {
-      user.resetAnswer();
-    })
-  }
-}
 
 const createRoom = async (ownerId) => {
   const room = new Room(makeid(4), ownerId);
@@ -50,9 +31,17 @@ const startGame = function(roomCode) {
   return rooms[roomCode];
 }
 
+const submitAnswer = function(roomCode, userId, answer) {
+  const room = rooms[roomCode];
+  logger('Submitting answer: %s for user: %s in room: %s', answer, userId, roomCode);
+  room.submitAnswer(userId, answer);
+  return room;
+}
+
 module.exports = {
   createRoom,
   validateRoomExists,
   joinRoom,
-  startGame
+  startGame,
+  submitAnswer
 }

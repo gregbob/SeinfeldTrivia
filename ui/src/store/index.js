@@ -8,9 +8,9 @@ const state = {
   items: [],
   room: {
     roomCode: '',
-    users: []
-  },
-  currentGameState: GameState.SETUP 
+    users: [],
+    gameState: GameState.SETUP
+  }
 };
 
 const mutations = {
@@ -23,8 +23,8 @@ const mutations = {
   roomJoined(state, user) {
     state.room.users.push(user.name);
   },
-  updateGameState(state, gameState) {
-    state.currentGameState = gameState;
+  updateGameState(state, room) {
+    state.room = room;
   }
 }
 
@@ -47,7 +47,7 @@ const actions = {
 }
 
 const getters = {
-  items: state => state.items
+  currentGameState: state => state.room.gameState
 }
 
 export default new Vuex.Store({
