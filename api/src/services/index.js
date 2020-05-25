@@ -1,4 +1,4 @@
-const roomService = require('./room');
+const roomService = require('./roomService');
 
 module.exports = {
   roomService

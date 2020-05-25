@@ -1,24 +1,7 @@
+const User = require('./user'); 
 const makeid = require('../utils/makeid');
-
+const logger = require('../utils/logger').extend('roomService');
 const rooms = {}
-
-class User {
-  constructor(name, id) {
-    this.id = id;
-    this.name = name;
-    this.currentAnswer = '';
-    this.score = 0;
-    // this.icon = icon;
-  }
-
-  updateScore(score) {
-    this.score += score;
-  }
-
-  resetAnswer() {
-    this.currentAnswer = '';
-  }
-}
 
 class Room {
   constructor(roomCode, ownerId) {
@@ -43,7 +26,9 @@ class Room {
 
 const createRoom = async (ownerId) => {
   const room = new Room(makeid(4), ownerId);
+  logger('Creating new room: %O', room);
   rooms[room.roomCode] = room;
+  logger('Current rooms: %O', rooms);
 
   return room;
 }
@@ -53,7 +38,9 @@ const validateRoomExists = (roomCode) => {
 }
 
 const joinRoom = function (roomCode, name, id) {
-  rooms[roomCode].addUser(new User(name, id));
+  const user = new User(name, id);
+  rooms[roomCode].addUser(user);
+  logger('Adding new user: %O to \nroom:%O', user, rooms[roomCode]);
 }
 
 const startGame = function(roomCode) {

@@ -1,5 +1,5 @@
-const roomController = require('./room');
-console.log('roomController', roomController)
+const roomController = require('./roomController');
+
 module.exports = {
   roomController
 }

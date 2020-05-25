@@ -1,7 +1,8 @@
 const { roomController } = require('../controllers');
+const logger = require('debug')('seinfeldTrivia:sockets');
 
 module.exports.listen = function(context) {
-  console.log(`${context.socket.id} connected`);
+  logger(`${context.socket.id} connected`);
 
   context.socket.on('createRoom', async (callback) => {
     const response = await roomController.createRoom(context);
@@ -18,6 +19,6 @@ module.exports.listen = function(context) {
   });
 
   context.socket.on('disconnect', async () => {
-    console.log(`${context.socket.id} disconnected`);
+    logger(`${context.socket.id} disconnected`);
   })
 }

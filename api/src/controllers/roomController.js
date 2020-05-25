@@ -1,5 +1,5 @@
 const { roomService } = require('../services');
-
+const logger = require('../utils/logger').extend('roomController');
 /**
  * Responsible for handling socket orchestration
  */
@@ -10,7 +10,7 @@ const createRoom = async (context) => {
     context.socket.join(response.roomCode);
     return response;
   } catch(e) {
-    console.log(e.message)
+    logger(e.message)
   }
 }
 
@@ -18,7 +18,7 @@ const joinRoom = async (data, context) => {
   try {
     // Validate room exists
     if (!roomService.validateRoomExists(data.roomCode)) {
-      console.log('Failed to join room');
+      logger('Failed to join room');
       return false;
     }
     // Add user to room
@@ -31,7 +31,7 @@ const joinRoom = async (data, context) => {
     return true;
 
   } catch (e) {
-    console.log(e.message);
+    logger(e.message);
   }
 }
 
@@ -40,7 +40,7 @@ const startGame = async (data, context) => {
     const response = roomService.startGame(data.roomCode);
     context.io.in(response.roomCode).emit('updateGameState', response.gameState);
   } catch (e) {
-    console.log(e.message);
+    logger(e.message);
   }
 }
 
