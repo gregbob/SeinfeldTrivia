@@ -4,10 +4,15 @@
       Waiting for game to start.
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      <input v-model="inputValue" :disabled="submitted">
-      <button v-on:click="submitAnswer"> SUBMIT </button>
+      <div v-if="!submitted">
+        <input v-model="inputValue">
+        <button v-on:click="submitAnswer"> SUBMIT </button>
+      </div>
+      <div v-else> 
+        Answer submitted.
+      </div>
     </div>
-    <div v-else-if="currentGameState == GameState.ANSWER">
+    <div v-else-if="currentGameState == GameState.RESULT">
       Waiting for host to decide the valid answers.
     </div>
 
