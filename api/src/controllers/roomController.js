@@ -50,11 +50,11 @@ const submitAnswer = async (data, context) => {
     const room = roomService.submitAnswer(data.roomCode, context.socket.id, data.answer);
     logger('Result of room after submitting answer: %O', room);
 
-    if (room.gameState == 'ANSWER') {
+    if (room.gameState == 'RESULT') {
       logger('Emitting updateGameState event with payload: %O', room);
       context.io.in(room.roomCode).emit('updateGameState', room);
     }
-    
+
     return true;
   } catch (e) {
     logger(e.message);

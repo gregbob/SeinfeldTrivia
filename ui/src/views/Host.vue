@@ -10,6 +10,11 @@
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
       West 81st Street
+      <ul>
+        <li v-for="user in userAnswers" :key="user">
+          User: {{ user.name }}, Answer: {{ user.currentAnswer }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -38,7 +43,7 @@ export default {
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState'])
+    ...mapGetters(['currentGameState', 'userAnswers'])
   },
 }
 </script>

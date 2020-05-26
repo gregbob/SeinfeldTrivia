@@ -21,7 +21,7 @@ module.exports = class Room {
   }
 
   enterResultState() {
-    this.gameState = 'ANSWER';
+    this.gameState = 'RESULT';
   }
 
   allAnswersHaveBeenSubmitted() {

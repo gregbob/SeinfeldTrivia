@@ -47,7 +47,8 @@ const actions = {
 }
 
 const getters = {
-  currentGameState: state => state.room.gameState
+  currentGameState: state => state.room.gameState,
+  userAnswers: state => state.room.users.filter(user => user.currentAnswer)
 }
 
 export default new Vuex.Store({
