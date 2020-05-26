@@ -9,7 +9,8 @@ const state = {
   room: {
     roomCode: '',
     users: [],
-    gameState: GameState.SETUP
+    gameState: GameState.SETUP,
+    roundTime: 0
   }
 };
 
@@ -24,7 +25,7 @@ const mutations = {
     state.room.users.push(user.name);
   },
   updateGameState(state, room) {
-    state.room = room;
+    Object.assign(state.room, room);
   }
 }
 
@@ -48,7 +49,9 @@ const actions = {
 
 const getters = {
   currentGameState: state => state.room.gameState,
-  userAnswers: state => state.room.users.filter(user => user.currentAnswer)
+  roundTime: state => state.room.roundTime,
+  userAnswers: state => state.room.users.filter(user => user.currentAnswer),
+
 }
 
 export default new Vuex.Store({

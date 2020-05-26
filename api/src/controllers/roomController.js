@@ -38,8 +38,11 @@ const addUser = async (data, context) => {
 
 const startGame = async (context) => {
   try {
-    const room = roomService.startGame(context.socket.id);
-    context.io.in(room.roomCode).emit('updateGameState', room);
+    const room = roomService.startGame(context.socket.id, () => {
+      logger('Round ended from timeout');
+      _emitUpdateGameState(context, roomService.enterResultState(context.socket.id))
+    });
+    _emitUpdateGameState(context, room);
   } catch (e) {
     logger(e.message);
   }
@@ -51,8 +54,7 @@ const submitAnswer = async (data, context) => {
     logger('Result of room after submitting answer: %O', room);
 
     if (room.gameState == 'RESULT') {
-      logger('Emitting updateGameState event with payload: %O', room);
-      context.io.in(room.roomCode).emit('updateGameState', room);
+      _emitUpdateGameState(context, room);
     }
 
     return true;
@@ -60,6 +62,12 @@ const submitAnswer = async (data, context) => {
     logger(e.message);
     return false;
   }
+}
+
+function _emitUpdateGameState(context, room) {
+  const updateGameStatePayload = room.toPayload();
+  logger('Emitting updateGameState event with payload: %O', updateGameStatePayload);
+  context.io.in(room.roomCode).emit('updateGameState', updateGameStatePayload);
 }
 
 module.exports = {

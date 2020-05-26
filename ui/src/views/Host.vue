@@ -7,6 +7,7 @@
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
       Where street does Jerry Seinfeld live on?
+      <timer :startTime="roundTime"></timer>
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
       West 81st Street
@@ -24,12 +25,14 @@ import { mapState, mapGetters } from 'vuex';
 import GameState from '../utils/gameState'
 import RoomCode from '../components/RoomCode'
 import UserList from '../components/UserList'
+import Timer from '../components/Timer'
 
 export default {
   name: 'Host',
   components: {
     RoomCode,
-    UserList
+    UserList,
+    Timer
   },
   data() {
     return {
@@ -43,8 +46,8 @@ export default {
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState', 'userAnswers'])
-  },
+    ...mapGetters(['currentGameState', 'userAnswers', 'roundTime'])
+  }
 }
 </script>
 

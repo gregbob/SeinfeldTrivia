@@ -41,10 +41,16 @@ const addUser = function (roomCode, userInfo, id) {
   logger('Adding user to userMap: %O', userMap);
 }
 
-const startGame = function(hostId) {
+const startGame = function(hostId, onRoundTimeoutCallback) {
   const room = hostMap[hostId];
-  room.enterQuestionState();
+  room.enterQuestionState(onRoundTimeoutCallback);
   logger('Starting game: %O', room);
+  return room;
+}
+
+const enterResultState = function(hostId) {
+  const room = hostMap[hostId];
+  room.enterResultState();
   return room;
 }
 
@@ -67,5 +73,6 @@ module.exports = {
   validateRoomExists,
   addUser,
   startGame,
+  enterResultState,
   submitAnswer
 }

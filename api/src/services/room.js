@@ -6,23 +6,30 @@ module.exports = class Room {
     this.hostId = hostId;
     this.gameState = 'SETUP';
     this.users = [];
+    this.roundTime = 15;
+    this.roundTimeoutId = '';
   }
 
   addUser(user) {
     this.users.push(user);
   }
 
-  enterQuestionState() {
+  enterQuestionState(onRoundTimeOutCallback) {
     this.gameState = 'QUESTION';
     // Reset user answers
     this.users.forEach(user => {
       user.resetAnswer();
     })
+
+    this.roundTimeoutId = setTimeout(onRoundTimeOutCallback, this.roundTime * 1000);
   }
 
   enterResultState() {
     this.gameState = 'RESULT';
     logger(`${this.roomCode} is entering the ${this.gameState} game state`);
+
+    clearTimeout(this.roundTimeoutId);
+    delete this.roundTimeoutId;
   }
 
   allAnswersHaveBeenSubmitted() {
@@ -33,6 +40,14 @@ module.exports = class Room {
       }
     }
     return true;
+  }
+
+  toPayload() {
+    return {
+      gameState: this.gameState,
+      users: this.users,
+      roundTime: this.roundTime
+    }
   }
 
   // submitAnswer(userId, answer) {
