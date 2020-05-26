@@ -11,6 +11,6 @@ export default new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/host', component: Host },
-    { path: '/play/:roomCode', component: Play }
+    { path: '/play', component: Play }
   ]
 })

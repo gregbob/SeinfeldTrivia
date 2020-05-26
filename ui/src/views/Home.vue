@@ -31,14 +31,9 @@ export default {
       };
       this.$socket.emit('addUser', payload, (response) => {
         if (response == true) {
-          this.$router.push(`/play/${this.roomCode}`);
+          this.$router.push(`/play`);
         }
       });
-    }
-  },
-  sockets: {
-    updateGameState: function() {
-      console.log('Update');
     }
   }
 }
