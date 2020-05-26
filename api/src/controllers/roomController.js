@@ -14,7 +14,7 @@ const createRoom = async (context) => {
   }
 }
 
-const joinRoom = async (data, context) => {
+const addUser = async (data, context) => {
   try {
     // Validate room exists
     if (!roomService.validateRoomExists(data.roomCode)) {
@@ -22,7 +22,7 @@ const joinRoom = async (data, context) => {
       return false;
     }
     // Add user to room
-    roomService.joinRoom(data.roomCode, data.user, context.socket.id);
+    roomService.addUser(data.roomCode, data.user, context.socket.id);
     context.socket.join(data.roomCode);
 
     // Broadcast that user joined this room
@@ -64,7 +64,7 @@ const submitAnswer = async (data, context) => {
 
 module.exports = {
   createRoom,
-  joinRoom,
+  addUser,
   startGame,
   submitAnswer
 }

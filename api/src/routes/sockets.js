@@ -10,9 +10,9 @@ module.exports.listen = function(context) {
     callback(response);
   });
 
-  context.socket.on('joinRoom', async (data, callback) => {
-    logger('joinRoom called with %O', data);
-    const response = await roomController.joinRoom(data, context);
+  context.socket.on('addUser', async (data, callback) => {
+    logger('addUser called with %O', data);
+    const response = await roomController.addUser(data, context);
     callback(response);
   });
 

@@ -6,7 +6,7 @@
       <input id="user-name" v-model="userName">
       <label> Room Code </label>
       <input id="room-code" v-model="roomCode">
-      <button v-on:click="joinRoom(userName, roomCode)"> Join Room </button>
+      <button v-on:click="addUser(userName, roomCode)"> Join Room </button>
       <!-- <router-link to="/play">Join</router-link> -->
     </div>
   </div>
@@ -22,14 +22,14 @@ export default {
     };
   },
   methods: {
-    joinRoom() {
+    addUser() {
       const payload = {
         roomCode: this.roomCode,
         user: {
           name: this.userName
         }
       };
-      this.$socket.emit('joinRoom', payload, (response) => {
+      this.$socket.emit('addUser', payload, (response) => {
         if (response == true) {
           this.$router.push(`/play/${this.roomCode}`);
         }

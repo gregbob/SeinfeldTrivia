@@ -4,6 +4,8 @@ const makeid = require('../utils/makeid');
 const logger = require('../utils/logger').extend('roomService');
 
 const rooms = {}
+// Map user id to rooms
+const users = {}
 
 const createRoom = async (ownerId) => {
   const room = new Room(makeid(4), ownerId);
@@ -20,7 +22,7 @@ const validateRoomExists = (roomCode) => {
   return roomExists;
 }
 
-const joinRoom = function (roomCode, userInfo, id) {
+const addUser = function (roomCode, userInfo, id) {
   const user = new User(userInfo.name, id);
   rooms[roomCode].addUser(user);
   logger('Adding new user: %O to \nroom:%O', user, rooms[roomCode]);
@@ -41,7 +43,7 @@ const submitAnswer = function(roomCode, userId, answer) {
 module.exports = {
   createRoom,
   validateRoomExists,
-  joinRoom,
+  addUser,
   startGame,
   submitAnswer
 }
