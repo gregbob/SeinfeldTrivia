@@ -16,9 +16,9 @@ module.exports.listen = function(context) {
     callback(response);
   });
 
-  context.socket.on('startGame', async(data) => {
-    logger('startGame called with %O', data);
-    await roomController.startGame(data, context);
+  context.socket.on('startGame', async() => {
+    logger('startGame event received');
+    await roomController.startGame(context);
   });
 
   context.socket.on('submitAnswer', async(data, callback) => {

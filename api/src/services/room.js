@@ -1,9 +1,9 @@
 const logger = require('../utils/logger').extend('room');
 
 module.exports = class Room {
-  constructor(roomCode, ownerId) {
+  constructor(roomCode, hostId) {
     this.roomCode = roomCode;
-    this.ownerId = ownerId;
+    this.hostId = hostId;
     this.gameState = 'SETUP';
     this.users = [];
   }
@@ -22,6 +22,7 @@ module.exports = class Room {
 
   enterResultState() {
     this.gameState = 'RESULT';
+    logger(`${this.roomCode} is entering the ${this.gameState} game state`);
   }
 
   allAnswersHaveBeenSubmitted() {
@@ -34,24 +35,24 @@ module.exports = class Room {
     return true;
   }
 
-  submitAnswer(userId, answer) {
-    const user = this.getUser(userId);
-    logger('Submitting answer for %O', user);
-    user.currentAnswer = answer;
+  // submitAnswer(userId, answer) {
+  //   const user = this.getUser(userId);
+  //   logger('Submitting answer for %O', user);
+  //   user.currentAnswer = answer;
 
-    if (this.allAnswersHaveBeenSubmitted()) {
-      this.enterResultState();
-    }
-  }
+  //   if (this.allAnswersHaveBeenSubmitted()) {
+  //     this.enterResultState();
+  //   }
+  // }
 
-  getUser(userId) {
-    logger('looking for user: %s', userId);
-    for(var i = 0; i < this.users.length; i++) {
-      const user = this.users[i];
-      if (user.id == userId) {
-        logger('Found user: %O', user);
-        return user;
-      }
-    }
-  }
+  // getUser(userId) {
+  //   logger('looking for user: %s', userId);
+  //   for(var i = 0; i < this.users.length; i++) {
+  //     const user = this.users[i];
+  //     if (user.id == userId) {
+  //       logger('Found user: %O', user);
+  //       return user;
+  //     }
+  //   }
+  // }
 }

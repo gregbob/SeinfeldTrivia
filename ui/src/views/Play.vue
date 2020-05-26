@@ -16,10 +16,7 @@ export default {
   },
   methods: {
     pushItem() {
-      const payload = {
-        answer: this.inputValue,
-        roomCode: this.$route.params.roomCode
-      }
+      const payload = { answer: this.inputValue }
       this.$socket.emit('submitAnswer', payload, (response) => {
         // If response is true, disable submit box and wait for state update
         console.log(response);

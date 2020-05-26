@@ -36,9 +36,9 @@ const addUser = async (data, context) => {
   }
 }
 
-const startGame = async (data, context) => {
+const startGame = async (context) => {
   try {
-    const room = roomService.startGame(data.roomCode);
+    const room = roomService.startGame(context.socket.id);
     context.io.in(room.roomCode).emit('updateGameState', room);
   } catch (e) {
     logger(e.message);
@@ -47,7 +47,7 @@ const startGame = async (data, context) => {
 
 const submitAnswer = async (data, context) => {
   try {
-    const room = roomService.submitAnswer(data.roomCode, context.socket.id, data.answer);
+    const room = roomService.submitAnswer(context.socket.id, data.answer);
     logger('Result of room after submitting answer: %O', room);
 
     if (room.gameState == 'RESULT') {

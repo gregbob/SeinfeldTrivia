@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     startGame() {
-      this.$socket.emit('startGame', { roomCode: this.room.roomCode });
+      this.$socket.emit('startGame');
     }
   },
   computed: {
