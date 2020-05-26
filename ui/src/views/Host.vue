@@ -7,7 +7,7 @@
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
       Where street does Jerry Seinfeld live on?
-      <timer :startTime="roundTime"></timer>
+      <timer :startTime="questionStateTime"></timer>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
       West 81st Street
@@ -52,15 +52,16 @@ export default {
       this.$socket.emit('startGame');
     },
     nextQuestion() {
-      this.users.forEach(element => {
-        console.log(element);
-      });
-      this.$socket.emit('answersJudged', this.users);
+      const payload = this.users.reduce((obj, user) => {
+        obj[user.id] = user.validAnswer;
+        return obj;
+      }, {})
+      this.$socket.emit('answersJudged', payload);
     }
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState', 'users', 'roundTime'])
+    ...mapGetters(['currentGameState', 'users', 'questionStateTime'])
   }
 }
 </script>

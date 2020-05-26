@@ -6,7 +6,10 @@ const logger = require('../utils/logger').extend('roomController');
 
 const createRoom = async (context) => {
   try {
-    const response = await roomService.createRoom(context.socket.id);
+    const response = await roomService.createRoom(context.socket.id, (room) => {
+      _emitUpdateGameState(context, room);
+    });
+
     context.socket.join(response.roomCode);
     return response;
   } catch(e) {
@@ -38,11 +41,7 @@ const addUser = async (data, context) => {
 
 const startGame = async (context) => {
   try {
-    const room = roomService.startGame(context.socket.id, () => {
-      logger('Round ended from timeout');
-      _emitUpdateGameState(context, roomService.enterJudgementState(context.socket.id))
-    });
-    _emitUpdateGameState(context, room);
+    roomService.startGame(context.socket.id);
   } catch (e) {
     logger(e.message);
   }
@@ -50,13 +49,7 @@ const startGame = async (context) => {
 
 const submitAnswer = async (data, context) => {
   try {
-    const room = roomService.submitAnswer(context.socket.id, data.answer);
-    logger('Result of room after submitting answer: %O', room);
-
-    if (room.gameState == 'JUDGEMENT') {
-      _emitUpdateGameState(context, room);
-    }
-
+    roomService.submitAnswer(context.socket.id, data.answer);
     return true;
   } catch (e) {
     logger(e.message);
@@ -65,10 +58,7 @@ const submitAnswer = async (data, context) => {
 }
 
 const answersJudged = async (data, context) => {
-  const room = roomService.answersJudged(context.socket.id, data);
-  if (room.gameState == 'RESULT') {
-    _emitUpdateGameState(context, room);
-  }
+  roomService.answersJudged(context.socket.id, data);
 }
 
 function _emitUpdateGameState(context, room) {

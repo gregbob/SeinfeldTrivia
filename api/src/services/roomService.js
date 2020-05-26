@@ -10,8 +10,8 @@ const rooms = {}
 // Map user id to rooms/users
 const userMap = {}
 
-const createRoom = async (hostId) => {
-  const room = new Room(makeid(4), hostId);
+const createRoom = async (hostId, onStateChangeCallback) => {
+  const room = new Room(makeid(4), hostId, onStateChangeCallback);
   logger('Creating new room: %O', room);
   rooms[room.roomCode] = room;
   logger('Current rooms: %O', rooms);
@@ -41,18 +41,13 @@ const addUser = function (roomCode, userInfo, id) {
   logger('Adding user to userMap: %O', userMap);
 }
 
-const startGame = function(hostId, onRoundTimeoutCallback) {
+const startGame = function(hostId) {
   const room = hostMap[hostId];
-  room.enterQuestionState(onRoundTimeoutCallback);
+  room.changeState('QUESTION');
   logger('Starting game: %O', room);
   return room;
 }
 
-const enterJudgementState = function(hostId) {
-  const room = hostMap[hostId];
-  room.enterJudgementState();
-  return room;
-}
 
 const submitAnswer = function(userId, answer) {
   const user = userMap[userId].user;
@@ -62,17 +57,19 @@ const submitAnswer = function(userId, answer) {
   logger('Submitting answer: %s for user: %s in room: %s', answer, user, room);
 
   if (room.allAnswersHaveBeenSubmitted()) {
-    room.enterJudgementState();
+    room.changeState('JUDGEMENT');
   }
-
-  return room;
 }
 
 const answersJudged = function(hostId, users) {
   const room = hostMap[hostId];
-  room.exitJudgementState(users);
-  room.enterResultState();
-  return room;
+  room.users.forEach((user) => {
+    if (users[user.id]) {
+      user.updateScore(1);
+      logger('Updating user score %O', user);
+    }
+  });
+  room.changeState('RESULT');
 }
 
 module.exports = {
@@ -80,7 +77,6 @@ module.exports = {
   validateRoomExists,
   addUser,
   startGame,
-  enterJudgementState,
   submitAnswer,
   answersJudged
 }

@@ -1,55 +1,68 @@
 const logger = require('../utils/logger').extend('room');
 
 module.exports = class Room {
-  constructor(roomCode, hostId) {
+  constructor(roomCode, hostId, onStateChangeCallback) {
     this.roomCode = roomCode;
     this.hostId = hostId;
     this.gameState = 'SETUP';
     this.users = [];
-    this.roundTime = 15;
+    this.questionStateTime = 15;
+    this.resultStateTime = 5;
     this.roundTimeoutId = '';
+
+    this.onStateChangeCallback = onStateChangeCallback;
+
   }
 
   addUser(user) {
     this.users.push(user);
   }
 
-  enterQuestionState(onRoundTimeOutCallback) {
+  changeState(newState) {
+    // Maybe add exit state before
+    logger(`${this.roomCode} is entering the ${newState} game state`);
+    if (newState == 'SETUP') {
+
+    } else if (newState == 'QUESTION') {
+      this._enterQuestionState();
+    } else if (newState == 'JUDGEMENT') {
+      this._enterJudgementState();
+    } else if (newState == 'RESULT') {
+      this._enterResultState();
+    } else if (newState == 'WRAPUP') {
+      
+    }
+    this.onStateChangeCallback(this);
+  }
+
+  _enterQuestionState() {
     this.gameState = 'QUESTION';
     // Reset user answers
     this.users.forEach(user => {
       user.resetAnswer();
+      user.validAnswer = false;
     })
 
-    this.roundTimeoutId = setTimeout(onRoundTimeOutCallback, this.roundTime * 1000);
+    // Will auto advance the round if the timeout is reached
+    this.roundTimeoutId = setTimeout(() => {
+      this.changeState('JUDGEMENT');
+    }, this.questionStateTime * 1000);
   }
 
-  enterJudgementState() {
+  _enterJudgementState() {
     this.gameState = 'JUDGEMENT';
-    logger(`${this.roomCode} is entering the ${this.gameState} game state`);
 
     clearTimeout(this.roundTimeoutId);
     delete this.roundTimeoutId;
   }
 
-  exitJudgementState(users) {
-    // Assign points
-    users.forEach(user => {
-      if (user.validAnswer) {
-        user.score++;
-      }
-      user.validAnswer = false;
-      user.currentAnswer = '';
-    })
-    this.users = users;
-  }
-
-  enterResultState() {
+  _enterResultState() {
     this.gameState = 'RESULT';
-    logger(`${this.roomCode} is entering the ${this.gameState} game state`);
 
-    // clearTimeout(this.roundTimeoutId);
-    // delete this.roundTimeoutId;
+    // Auto advance to question state after resultStateTime has passed
+    setTimeout(() => {
+      this.changeState('QUESTION');
+    }, this.resultStateTime * 1000);
   }
 
   allAnswersHaveBeenSubmitted() {
@@ -66,7 +79,7 @@ module.exports = class Room {
     return {
       gameState: this.gameState,
       users: this.users,
-      roundTime: this.roundTime
+      questionStateTime: this.questionStateTime
     }
   }
 }

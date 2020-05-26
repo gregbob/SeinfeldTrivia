@@ -10,7 +10,7 @@ const state = {
     roomCode: '',
     users: [],
     gameState: GameState.SETUP,
-    roundTime: 0
+    questionStateTime: 0
   }
 };
 
@@ -49,7 +49,7 @@ const actions = {
 
 const getters = {
   currentGameState: state => state.room.gameState,
-  roundTime: state => state.room.roundTime,
+  questionStateTime: state => state.room.questionStateTime,
   users: state => state.room.users,
   userAnswers: state => state.room.users.filter(user => user.currentAnswer),
 
