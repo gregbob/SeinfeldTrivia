@@ -49,6 +49,7 @@ export default {
       this.users.forEach(element => {
         console.log(element);
       });
+      this.$socket.emit('answersJudged', this.users);
     }
   },
   computed: {
