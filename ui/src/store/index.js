@@ -50,6 +50,7 @@ const actions = {
 const getters = {
   currentGameState: state => state.room.gameState,
   roundTime: state => state.room.roundTime,
+  users: state => state.room.users,
   userAnswers: state => state.room.users.filter(user => user.currentAnswer),
 
 }

@@ -12,10 +12,10 @@
     <div v-else-if="currentGameState == GameState.RESULT">
       West 81st Street
       <ul>
-        <li v-for="user in userAnswers" :key="user">
-          User: {{ user.name }}, Answer: {{ user.currentAnswer }}
-        </li>
+        <answer v-for="user in users" :key="user.id" :user="user"></answer>
       </ul>
+
+      <button v-on:click="nextQuestion"> Next Question </button>
     </div>
   </div>
 </template>
@@ -26,13 +26,15 @@ import GameState from '../utils/gameState'
 import RoomCode from '../components/RoomCode'
 import UserList from '../components/UserList'
 import Timer from '../components/Timer'
+import Answer from '../components/Answer'
 
 export default {
   name: 'Host',
   components: {
     RoomCode,
     UserList,
-    Timer
+    Timer,
+    Answer
   },
   data() {
     return {
@@ -42,11 +44,16 @@ export default {
   methods: {
     startGame() {
       this.$socket.emit('startGame');
+    },
+    nextQuestion() {
+      this.users.forEach(element => {
+        console.log(element);
+      });
     }
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState', 'userAnswers', 'roundTime'])
+    ...mapGetters(['currentGameState', 'users', 'roundTime'])
   }
 }
 </script>
