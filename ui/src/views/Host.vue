@@ -9,13 +9,19 @@
       Where street does Jerry Seinfeld live on?
       <timer :startTime="roundTime"></timer>
     </div>
-    <div v-else-if="currentGameState == GameState.RESULT">
+    <div v-else-if="currentGameState == GameState.JUDGEMENT">
       West 81st Street
       <ul>
         <answer v-for="user in users" :key="user.id" :user="user"></answer>
       </ul>
-
       <button v-on:click="nextQuestion"> Next Question </button>
+    </div>
+    <div v-else-if="currentGameState == GameState.RESULT">
+      <ul>
+        <li v-for="user in users" :key="user.id" :user="user">
+          Name: {{ user.name }}, Score: {{ user.score }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>

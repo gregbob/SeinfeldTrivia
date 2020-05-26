@@ -48,9 +48,9 @@ const startGame = function(hostId, onRoundTimeoutCallback) {
   return room;
 }
 
-const enterResultState = function(hostId) {
+const enterJudgementState = function(hostId) {
   const room = hostMap[hostId];
-  room.enterResultState();
+  room.enterJudgementState();
   return room;
 }
 
@@ -62,9 +62,16 @@ const submitAnswer = function(userId, answer) {
   logger('Submitting answer: %s for user: %s in room: %s', answer, user, room);
 
   if (room.allAnswersHaveBeenSubmitted()) {
-    room.enterResultState();
+    room.enterJudgementState();
   }
 
+  return room;
+}
+
+const answersJudged = function(hostId, users) {
+  const room = hostMap[hostId];
+  room.exitJudgementState(users);
+  room.enterResultState();
   return room;
 }
 
@@ -73,6 +80,7 @@ module.exports = {
   validateRoomExists,
   addUser,
   startGame,
-  enterResultState,
-  submitAnswer
+  enterJudgementState,
+  submitAnswer,
+  answersJudged
 }

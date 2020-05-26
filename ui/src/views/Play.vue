@@ -12,10 +12,11 @@
         Answer submitted.
       </div>
     </div>
-    <div v-else-if="currentGameState == GameState.RESULT">
-      Waiting for host to decide the valid answers.
+    <div v-else-if="currentGameState == GameState.JUDGEMENT">
+      Waiting for host to judge which answers are valid.
     </div>
-
+    <div v-else-if="currentGameState == GameState.RESULT">
+    </div>
   </div>
 </template>
 

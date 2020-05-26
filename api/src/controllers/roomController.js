@@ -40,7 +40,7 @@ const startGame = async (context) => {
   try {
     const room = roomService.startGame(context.socket.id, () => {
       logger('Round ended from timeout');
-      _emitUpdateGameState(context, roomService.enterResultState(context.socket.id))
+      _emitUpdateGameState(context, roomService.enterJudgementState(context.socket.id))
     });
     _emitUpdateGameState(context, room);
   } catch (e) {
@@ -53,7 +53,7 @@ const submitAnswer = async (data, context) => {
     const room = roomService.submitAnswer(context.socket.id, data.answer);
     logger('Result of room after submitting answer: %O', room);
 
-    if (room.gameState == 'RESULT') {
+    if (room.gameState == 'JUDGEMENT') {
       _emitUpdateGameState(context, room);
     }
 
@@ -61,6 +61,13 @@ const submitAnswer = async (data, context) => {
   } catch (e) {
     logger(e.message);
     return false;
+  }
+}
+
+const answersJudged = async (data, context) => {
+  const room = roomService.answersJudged(context.socket.id, data);
+  if (room.gameState == 'RESULT') {
+    _emitUpdateGameState(context, room);
   }
 }
 
@@ -74,5 +81,6 @@ module.exports = {
   createRoom,
   addUser,
   startGame,
-  submitAnswer
+  submitAnswer,
+  answersJudged
 }

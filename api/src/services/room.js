@@ -24,12 +24,32 @@ module.exports = class Room {
     this.roundTimeoutId = setTimeout(onRoundTimeOutCallback, this.roundTime * 1000);
   }
 
-  enterResultState() {
-    this.gameState = 'RESULT';
+  enterJudgementState() {
+    this.gameState = 'JUDGEMENT';
     logger(`${this.roomCode} is entering the ${this.gameState} game state`);
 
     clearTimeout(this.roundTimeoutId);
     delete this.roundTimeoutId;
+  }
+
+  exitJudgementState(users) {
+    // Assign points
+    users.forEach(user => {
+      if (user.validAnswer) {
+        user.score++;
+      }
+      user.validAnswer = false;
+      user.currentAnswer = '';
+    })
+    this.users = users;
+  }
+
+  enterResultState() {
+    this.gameState = 'RESULT';
+    logger(`${this.roomCode} is entering the ${this.gameState} game state`);
+
+    // clearTimeout(this.roundTimeoutId);
+    // delete this.roundTimeoutId;
   }
 
   allAnswersHaveBeenSubmitted() {
@@ -49,25 +69,4 @@ module.exports = class Room {
       roundTime: this.roundTime
     }
   }
-
-  // submitAnswer(userId, answer) {
-  //   const user = this.getUser(userId);
-  //   logger('Submitting answer for %O', user);
-  //   user.currentAnswer = answer;
-
-  //   if (this.allAnswersHaveBeenSubmitted()) {
-  //     this.enterResultState();
-  //   }
-  // }
-
-  // getUser(userId) {
-  //   logger('looking for user: %s', userId);
-  //   for(var i = 0; i < this.users.length; i++) {
-  //     const user = this.users[i];
-  //     if (user.id == userId) {
-  //       logger('Found user: %O', user);
-  //       return user;
-  //     }
-  //   }
-  // }
 }

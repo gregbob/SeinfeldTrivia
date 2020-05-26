@@ -1,6 +1,7 @@
 export default {
   SETUP: 'SETUP',
   QUESTION: 'QUESTION',
+  JUDGEMENT: 'JUDGEMENT',
   RESULT: 'RESULT',
   WRAPUP: 'WRAPUP'
 };

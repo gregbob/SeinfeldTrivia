@@ -26,6 +26,11 @@ module.exports.listen = function(context) {
     callback(await roomController.submitAnswer(data, context));
   });
 
+  context.socket.on('answersJudged', async(data) => {
+    logger('answersJudged event received with %O', data);
+    await roomController.answersJudged(data, context);
+  });
+
   context.socket.on('disconnect', async () => {
     logger(`${context.socket.id} disconnected`);
   })
