@@ -10,6 +10,7 @@
       Waiting for host to judge which answers are valid.
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
+      Results are shown on the host screen.
     </div>
   </div>
 </template>

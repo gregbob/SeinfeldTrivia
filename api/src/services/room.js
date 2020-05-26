@@ -6,8 +6,8 @@ module.exports = class Room {
     this.hostId = hostId;
     this.gameState = 'SETUP';
     this.users = [];
-    this.questionStateTime = 15;
-    this.resultStateTime = 5;
+    this.questionStateTime = 30;
+    this.resultStateTime = 10;
     this.roundTimeoutId = '';
 
     this.onStateChangeCallback = onStateChangeCallback;
