@@ -4,13 +4,7 @@
       Waiting for game to start.
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      <div v-if="!submitted">
-        <input v-model="inputValue">
-        <button v-on:click="submitAnswer"> SUBMIT </button>
-      </div>
-      <div v-else> 
-        Answer submitted.
-      </div>
+      <question-submission> </question-submission>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
       Waiting for host to judge which answers are valid.
@@ -23,29 +17,20 @@
 <script>
 import { mapGetters } from 'vuex';
 import GameState from '../utils/gameState';
+import QuestionSubmission from '../components/QuestionSubmission'
 
 export default {
   name: 'Play',
+  components: {
+    QuestionSubmission
+  },
   data() {
     return {
-      inputValue: '',
-      submitted: false,
       GameState
     }
   },
   computed: {
     ...mapGetters(['currentGameState'])
-  },
-  methods: {
-    submitAnswer() {
-      const payload = { answer: this.inputValue }
-      this.$socket.emit('submitAnswer', payload, (response) => {
-        // If response is true, disable submit box and wait for state update
-        console.log(response);
-        this.inputValue = '';
-        this.submitted = true;
-      });
-    }
   }
 }
 </script>
