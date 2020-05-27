@@ -6,11 +6,11 @@
       <button v-on:click="startGame"> START GAME </button>
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      Where street does Jerry Seinfeld live on?
+      <question-display> </question-display>
       <timer :startTime="questionStateTime"></timer>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
-      West 81st Street
+      {{ currentAnswer }}
       <ul>
         <answer v-for="user in users" :key="user.id" :user="user"></answer>
       </ul>
@@ -33,6 +33,7 @@ import RoomCode from '../components/RoomCode'
 import UserList from '../components/UserList'
 import Timer from '../components/Timer'
 import Answer from '../components/Answer'
+import QuestionDisplay from '../components/QuestionDisplay'
 
 export default {
   name: 'Host',
@@ -40,7 +41,8 @@ export default {
     RoomCode,
     UserList,
     Timer,
-    Answer
+    Answer,
+    QuestionDisplay
   },
   data() {
     return {
@@ -61,7 +63,7 @@ export default {
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState', 'users', 'questionStateTime'])
+    ...mapGetters(['currentGameState', 'users', 'questionStateTime', 'currentAnswer'])
   }
 }
 </script>

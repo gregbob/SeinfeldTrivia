@@ -52,7 +52,8 @@ const getters = {
   questionStateTime: state => state.room.questionStateTime,
   users: state => state.room.users,
   userAnswers: state => state.room.users.filter(user => user.currentAnswer),
-
+  currentQuestion: state => state.room.currentQuestion.question,
+  currentAnswer: state => state.room.currentQuestion.answer,
 }
 
 export default new Vuex.Store({

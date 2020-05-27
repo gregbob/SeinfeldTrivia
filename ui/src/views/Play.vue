@@ -4,7 +4,8 @@
       Waiting for game to start.
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      <question-submission> </question-submission>
+      <question-display></question-display>
+      <question-submission></question-submission>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
       Waiting for host to judge which answers are valid.
@@ -19,11 +20,13 @@
 import { mapGetters } from 'vuex';
 import GameState from '../utils/gameState';
 import QuestionSubmission from '../components/QuestionSubmission'
+import QuestionDisplay from '../components/QuestionDisplay'
 
 export default {
   name: 'Play',
   components: {
-    QuestionSubmission
+    QuestionSubmission,
+    QuestionDisplay,
   },
   data() {
     return {
