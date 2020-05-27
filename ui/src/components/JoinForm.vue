@@ -48,7 +48,4 @@ export default {
 </script>
 
 <style>
-#join-form {
-  margin: 1em;
-}
 </style>

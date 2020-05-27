@@ -2,10 +2,10 @@
   <div id="home">
     <b-tabs content-class="mt-3">
       <b-tab title="Join">
-        <join-form></join-form>
+        <join-form class="form"></join-form>
       </b-tab>
       <b-tab title="Host">
-        <router-link to="/host">Go to Host</router-link>
+        <host-form class="form"></host-form>
       </b-tab>
     </b-tabs>
 
@@ -15,14 +15,20 @@
 
 <script>
 import JoinForm from '../components/JoinForm';
+import HostForm from '../components/HostForm';
 
 export default {
   name: 'Home',
   components: {
     JoinForm,
+    HostForm,
   }
 }
 </script>
 
 <style>
+
+.form {
+  margin: 1em;
+}
 </style>
