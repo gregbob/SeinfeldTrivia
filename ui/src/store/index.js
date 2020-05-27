@@ -15,9 +15,6 @@ const state = {
 };
 
 const mutations = {
-  addItem(state, item) {
-    state.items.push(item)
-  },
   roomCreated(state, room) {
     state.room.roomCode = room.roomCode;
   },
@@ -30,16 +27,12 @@ const mutations = {
 }
 
 const actions = {
-  SOCKET_addItem: ({
-    commit
-  }, payload) => commit('addItem', payload),
   createRoom: function ({ commit }){
     this._vm.$socket.emit('createRoom', (response) => {
       commit('roomCreated', response)
     });
   },
   SOCKET_roomJoined: ({commit }, payload) => {
-    console.log(payload);
     commit('roomJoined', payload);
   },
   SOCKET_updateGameState: ({ commit }, gameState) => {
@@ -48,12 +41,12 @@ const actions = {
 }
 
 const getters = {
-  currentGameState: state => state.room.gameState,
-  questionStateTime: state => state.room.questionStateTime,
   users: state => state.room.users,
   userAnswers: state => state.room.users.filter(user => user.currentAnswer),
   currentQuestion: state => state.room.currentQuestion.question,
   currentAnswer: state => state.room.currentQuestion.answer,
+  currentGameState: state => state.room.gameState,
+  questionStateTime: state => state.room.questionStateTime,
 }
 
 export default new Vuex.Store({
