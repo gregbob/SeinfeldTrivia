@@ -11,7 +11,7 @@ const rooms = {}
 const userMap = {}
 
 const createRoom = async (hostId, onStateChangeCallback) => {
-  const room = new Room(makeid(4), hostId, onStateChangeCallback);
+  const room = new Room(makeid(4), hostId, onStateChangeCallback, 10);
   logger('Creating new room: %O', room);
   rooms[room.roomCode] = room;
   logger('Current rooms: %O', rooms);

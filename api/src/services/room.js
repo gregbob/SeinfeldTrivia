@@ -1,7 +1,8 @@
 const logger = require('../utils/logger').extend('room');
+const shuffle = require('shuffle-array');
 
 module.exports = class Room {
-  constructor(roomCode, hostId, onStateChangeCallback) {
+  constructor(roomCode, hostId, onStateChangeCallback, numberOfQuestions) {
     this.roomCode = roomCode;
     this.hostId = hostId;
     this.gameState = 'SETUP';
@@ -10,7 +11,21 @@ module.exports = class Room {
     this.resultStateTime = 10;
     this.roundTimeoutId = '';
 
+    const { questions } = require('../assets/questions.json');
+    this.questions = this.getRandomSubset(numberOfQuestions, questions);
+    this.currentQuestionIndex = -1;
+
     this.onStateChangeCallback = onStateChangeCallback;
+
+  }
+
+  getRandomSubset(size, array) {
+    if (size >= array.length) {
+      size = array.length;
+    }
+
+    shuffle(array);
+    return array.slice(0, size);
 
   }
 
@@ -37,6 +52,10 @@ module.exports = class Room {
 
   _enterQuestionState() {
     this.gameState = 'QUESTION';
+    
+    // Advance to next question
+    this.currentQuestionIndex++;
+
     // Reset user answers
     this.users.forEach(user => {
       user.resetAnswer();
@@ -79,7 +98,8 @@ module.exports = class Room {
     return {
       gameState: this.gameState,
       users: this.users,
-      questionStateTime: this.questionStateTime
+      questionStateTime: this.questionStateTime,
+      currentQuestion: this.questions[this.currentQuestionIndex]
     }
   }
 }
