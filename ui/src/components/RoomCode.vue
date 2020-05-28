@@ -1,6 +1,6 @@
 <template>
   <div id="room-code">
-    <h2> Room: {{ room.roomCode }} </h2>
+    <h4> Room: {{ room.roomCode }} </h4>
   </div>
 </template>
 

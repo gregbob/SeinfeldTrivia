@@ -15,12 +15,6 @@ const state = {
 };
 
 const mutations = {
-  roomCreated(state, room) {
-    state.room.roomCode = room.roomCode;
-  },
-  roomJoined(state, user) {
-    state.room.users.push(user.name);
-  },
   updateGameState(state, room) {
     Object.assign(state.room, room);
   }
@@ -29,11 +23,8 @@ const mutations = {
 const actions = {
   createRoom: function ({ commit }){
     this._vm.$socket.emit('createRoom', (response) => {
-      commit('roomCreated', response)
+      commit('updateGameState', response)
     });
-  },
-  SOCKET_roomJoined: ({commit }, payload) => {
-    commit('roomJoined', payload);
   },
   SOCKET_updateGameState: ({ commit }, gameState) => {
     commit('updateGameState', gameState);

@@ -25,12 +25,10 @@ const addUser = async (data, context) => {
       return false;
     }
     // Add user to room
-    roomService.addUser(data.roomCode, data.user, context.socket.id);
-    context.socket.join(data.roomCode);
+    const room = roomService.addUser(data.roomCode, data.user, context.socket.id);
+    context.socket.join(room.roomCode);
 
-    // Broadcast that user joined this room
-    context.socket.to(data.roomCode).emit('roomJoined', data.user)
-
+    _emitUpdateGameState(context, room);
     return true;
 
   } catch (e) {

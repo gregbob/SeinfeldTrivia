@@ -39,6 +39,8 @@ const addUser = function (roomCode, userInfo, id) {
     room
   };
   logger('Adding user to userMap: %O', userMap);
+
+  return room;
 }
 
 const startGame = function(hostId) {

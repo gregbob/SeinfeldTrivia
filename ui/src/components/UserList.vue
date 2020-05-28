@@ -1,9 +1,9 @@
 <template>
   <div id="user-list">
     <b-list-group> 
-      <b-list-group-item v-for="user in room.users" :key="user" class="d-flex align-items-center">
-        <b-avatar size="4rem" :src="getRandomAvatar()"> </b-avatar>
-        <span class="ml-3"> {{ user}} </span>
+      <b-list-group-item v-for="user in room.users" :key="user.name" class="d-flex align-items-center">
+        <b-avatar size="3.5rem" :src="getRandomAvatar()"> </b-avatar>
+        <span class="ml-3"> {{ user.name }} </span>
       </b-list-group-item>
     </b-list-group>
   </div>
