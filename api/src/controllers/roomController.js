@@ -4,9 +4,9 @@ const logger = require('../utils/logger').extend('roomController');
  * Responsible for handling socket orchestration
  */
 
-const createRoom = async (context) => {
+const createRoom = async (data, context) => {
   try {
-    const response = await roomService.createRoom(context.socket.id, (room) => {
+    const response = await roomService.createRoom(context.socket.id, data, (room) => {
       _emitUpdateGameState(context, room);
     });
 
@@ -14,6 +14,7 @@ const createRoom = async (context) => {
     return response;
   } catch(e) {
     logger(e.message)
+    return false;
   }
 }
 

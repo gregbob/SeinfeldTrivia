@@ -10,8 +10,8 @@ const rooms = {}
 // Map user id to rooms/users
 const userMap = {}
 
-const createRoom = async (hostId, onStateChangeCallback) => {
-  const room = new Room(makeid(4), hostId, onStateChangeCallback, 10);
+const createRoom = async (hostId, options, onStateChangeCallback) => {
+  const room = new Room(makeid(4), hostId,  options, onStateChangeCallback);
   logger('Creating new room: %O', room);
   rooms[room.roomCode] = room;
   logger('Current rooms: %O', rooms);

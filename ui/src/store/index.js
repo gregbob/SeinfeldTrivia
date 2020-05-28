@@ -21,8 +21,8 @@ const mutations = {
 }
 
 const actions = {
-  createRoom: function ({ commit }){
-    this._vm.$socket.emit('createRoom', (response) => {
+  createRoom: function ({ commit }, payload) {
+    this._vm.$socket.emit('createRoom', payload, (response) => {
       commit('updateGameState', response)
     });
   },

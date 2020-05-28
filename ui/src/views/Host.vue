@@ -2,14 +2,15 @@
   <div id="host">
     <div v-if="currentGameState == GameState.SETUP">
       <b-card class="m-2">
-        <room-code> </room-code>
-        <h4> Players: </h4>
+        <h4> Room: {{ room.roomCode }} </h4>
+        <h5> Players: </h5>
         <user-list> </user-list>
         <b-button class="mt-3" variant="primary" v-on:click="startGame"> START GAME </b-button>
       </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
       <question-display> </question-display>
+      <user-list> </user-list>
       <timer :startTime="questionStateTime"></timer>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
@@ -32,7 +33,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import GameState from '../utils/gameState'
-import RoomCode from '../components/RoomCode'
 import UserList from '../components/UserList'
 import Timer from '../components/Timer'
 import Answer from '../components/Answer'
@@ -41,7 +41,6 @@ import QuestionDisplay from '../components/QuestionDisplay'
 export default {
   name: 'Host',
   components: {
-    RoomCode,
     UserList,
     Timer,
     Answer,

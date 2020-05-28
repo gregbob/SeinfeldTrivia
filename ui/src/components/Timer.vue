@@ -9,7 +9,7 @@
 export default {
   name: 'Timer',
   props: {
-    startTime: Number
+    startTime: Number || String
   },
   data() {
     return {
@@ -22,7 +22,7 @@ export default {
   methods: {
     startTimer() {
       this.active = true
-      this.time = this.startTime;
+      this.time = new Number(this.startTime);
       this.timerIntervalId = setInterval(() => { this.time -= this.tickTime }, this.tickTime * 1000);
     },
     stopTimer() {

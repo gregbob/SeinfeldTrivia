@@ -4,9 +4,9 @@ const logger = require('../utils/logger').extend('sockets');
 module.exports.listen = function(context) {
   logger(`${context.socket.id} connected`);
 
-  context.socket.on('createRoom', async (callback) => {
-    logger(`createRoom triggered`);
-    const response = await roomController.createRoom(context);
+  context.socket.on('createRoom', async (data, callback) => {
+    logger('createRoom event received with %O', data);
+    const response = await roomController.createRoom(data, context);
     callback(response);
   });
 

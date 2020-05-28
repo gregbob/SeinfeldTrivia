@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'HostForm',
   data() {
@@ -42,34 +43,21 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['createRoom']),
     onSubmit(e) {
       e.preventDefault();
+
+      // Add error condition 
+      this.createRoom({
+        numberOfquestions: this.numberOfquestions,
+        questionStateTime: this.questionStateTime
+      });
+
       this.$router.push('/host');
-      // const payload = {
-      //   roomCode: this.roomCode,
-      //   user: {
-      //     name: this.name
-      //   }
-      // };
-      // this.$socket.emit('addUser', payload, (response) => {
-      //   if (response == true) {
-      //     this.$router.push(`/host`);
-      //   } else {
-      //     this.$bvToast.toast(`Failed to join room: ${this.roomCode}`, {
-      //       title: 'Error',
-      //       solid: true,
-      //       variant: "danger",
-      //       toaster: 'b-toaster-top-full',
-      //     });
-      //   }
-      // });
     }
   }
 }
 </script>
 
 <style>
-/* #join-form {
-  margin: 1em;
-} */
 </style>
