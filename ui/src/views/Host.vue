@@ -1,9 +1,12 @@
 <template>
   <div id="host">
-    <div v-if="currentGameState == GameState.SETUP">      
-      <room-code> </room-code>
-      <user-list> </user-list>
-      <button v-on:click="startGame"> START GAME </button>
+    <div v-if="currentGameState == GameState.SETUP">
+      <b-card class="m-2">
+        <room-code> </room-code>
+        <h4> Players: </h4>
+        <user-list> </user-list>
+        <b-button class="mt-3" variant="primary" v-on:click="startGame"> START GAME </b-button>
+      </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
       <question-display> </question-display>
