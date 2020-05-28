@@ -1,6 +1,7 @@
 <template>
   <div id="timer">
-    {{ time }}
+    <h5>Time remaining: {{Math.round(time)}} </h5>
+    <b-progress v-if="active" height="2em" class="mt-3" :value="time" :max="startTime" animated></b-progress>
   </div>
 </template>
 
@@ -13,15 +14,19 @@ export default {
   data() {
     return {
       time: 0,
-      timerIntervalId: ''
+      timerIntervalId: '',
+      tickTime: .012,
+      active: false
     }
   },
   methods: {
     startTimer() {
+      this.active = true
       this.time = this.startTime;
-      this.timerIntervalId = setInterval(() => { this.time -= 1 }, 1000);
+      this.timerIntervalId = setInterval(() => { this.time -= this.tickTime }, this.tickTime * 1000);
     },
     stopTimer() {
+      this.active = false;
       clearInterval(this.timerIntervalId);
     }
   },
