@@ -4,21 +4,25 @@
       <b-card class="m-2">
         <h4> Room: {{ room.roomCode }} </h4>
         <h5> Players: </h5>
-        <user-list> </user-list>
+        <user-list class="mt-3"> </user-list>
         <b-button class="mt-3" variant="primary" v-on:click="startGame"> START GAME </b-button>
       </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      <question-display> </question-display>
-      <user-list> </user-list>
-      <timer :startTime="questionStateTime"></timer>
+      <b-card class="m-2">
+        <h4> Question: {{currentQuestion}} </h4>
+        <h5> Players that have submitted answers: </h5>
+        <user-list :shouldDisplaySubmitted="true" class="mt-3"> </user-list>
+        <timer class="mt-3" :startTime="questionStateTime"></timer>
+      </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
-      {{ currentAnswer }}
-      <ul>
-        <answer v-for="user in users" :key="user.id" :user="user"></answer>
-      </ul>
-      <button v-on:click="nextQuestion"> Next Question </button>
+      <b-card class="m-2">
+        <h4> Answer: {{currentAnswer}} </h4>
+        <h5> Select the players with valid answers: </h5>
+        <user-list class="mt-3" :isJudgeable="true" :displayAnswer="true"> </user-list>
+        <b-button class="mt-3" variant="primary" v-on:click="nextQuestion"> Next Question </b-button>
+      </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
       <ul>
@@ -35,16 +39,12 @@ import { mapState, mapGetters } from 'vuex';
 import GameState from '../utils/gameState'
 import UserList from '../components/UserList'
 import Timer from '../components/Timer'
-import Answer from '../components/Answer'
-import QuestionDisplay from '../components/QuestionDisplay'
 
 export default {
   name: 'Host',
   components: {
     UserList,
     Timer,
-    Answer,
-    QuestionDisplay
   },
   data() {
     return {
@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapState(['items', 'room']),
-    ...mapGetters(['currentGameState', 'users', 'questionStateTime', 'currentAnswer'])
+    ...mapGetters(['currentGameState', 'users', 'questionStateTime', 'currentAnswer', 'currentQuestion'])
   }
 }
 </script>

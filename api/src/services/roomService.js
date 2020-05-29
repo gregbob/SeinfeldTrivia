@@ -60,6 +60,8 @@ const submitAnswer = function(userId, answer) {
 
   if (room.allAnswersHaveBeenSubmitted()) {
     room.changeState('JUDGEMENT');
+  } else { // Emit update event
+    room.updateState();
   }
 }
 

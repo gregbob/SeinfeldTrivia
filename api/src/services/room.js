@@ -33,6 +33,11 @@ module.exports = class Room {
     this.users.push(user);
   }
 
+  // Trigger an update to the state of the room but don't change the game state
+  updateState() {
+    this.onStateChangeCallback(this);
+  }
+
   changeState(newState) {
     // Maybe add exit state before
     logger(`${this.roomCode} is entering the ${newState} game state`);
@@ -100,6 +105,21 @@ module.exports = class Room {
       users: this.users,
       questionStateTime: this.questionStateTime,
       currentQuestion: this.questions[this.currentQuestionIndex]
+    }
+
+    return {
+      gameState: "JUDGEMENT",
+      users: [
+        {
+          name: "Jerry",
+          id: "1",
+          currentAnswer: "It's too dry!",
+          validAnswer: false,
+          score: 0
+        }
+      ],
+      questionStateTime: 30,
+      currentQuestion: "What's the deal with airplane food?"
     }
   }
 }

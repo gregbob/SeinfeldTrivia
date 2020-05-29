@@ -4,6 +4,7 @@ module.exports = class User {
     this.name = name;
     this.currentAnswer = '';
     this.score = 0;
+    this.validAnswer = false;
     // this.icon = icon;
   }
 

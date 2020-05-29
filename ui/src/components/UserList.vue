@@ -1,34 +1,33 @@
 <template>
   <div id="user-list">
     <b-list-group> 
-      <b-list-group-item v-for="user in room.users" :key="user.name" class="d-flex align-items-center">
-        <b-avatar size="3.5rem" :src="getRandomAvatar()"> </b-avatar>
-        <span class="ml-3"> {{ user.name }} </span>
-      </b-list-group-item>
+      <user 
+      :displayAnswer="displayAnswer" 
+      :isJudgeable="isJudgeable" 
+      :shouldDisplaySubmitted="shouldDisplaySubmitted"
+      :user="user" v-for="user in room.users" :key="user.name"
+      > 
+      </user>
     </b-list-group>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import User from './User'
 
 export default {
   name: 'UserList',
+  components: {
+    User
+  },
+  props: {
+    displayAnswer: Boolean,
+    isJudgeable: Boolean,
+    shouldDisplaySubmitted: Boolean,
+  },
   computed: {
     ...mapState(['room'])
-  },
-  methods: {
-    getRandomAvatar() {
-      const pics = [
-        "https://pbs.twimg.com/profile_images/699185091147276288/AQ0Otw5J_400x400.jpg",
-        "https://pbs.twimg.com/profile_images/725711186730299392/T8cczeWs_400x400.jpg",
-        "https://pbs.twimg.com/profile_images/2962448861/2b4a52fe49415cb7a7230caa0429acc5.jpeg",
-        "https://external-preview.redd.it/zIk5UgrZ6Q3sVNX_hNwHwcB0fKFiI0i7R6NnT7v8hgQ.jpg?auto=webp&s=191bd336c1fb43cf972b19f45922ec3d45e22f27"
-      ]
-      const randomInt = Math.floor(Math.random() * Math.floor(pics.length));
-
-      return pics[randomInt];
-    }
   }
 }
 </script>
