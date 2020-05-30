@@ -10,7 +10,11 @@ const state = {
     roomCode: '',
     users: [],
     gameState: GameState.SETUP,
-    questionStateTime: 0
+    questionStateTime: 0,
+    currentQuestion: {
+      question: '',
+      answer: ''
+    }
   }
 };
 

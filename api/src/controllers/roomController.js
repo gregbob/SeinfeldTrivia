@@ -11,7 +11,9 @@ const createRoom = async (data, context) => {
     });
 
     context.socket.join(response.roomCode);
-    return response;
+
+    // Return the room object payload instead of the whole room object
+    return response.toPayload();
   } catch(e) {
     logger(e.message)
     return false;

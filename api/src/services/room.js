@@ -101,6 +101,7 @@ module.exports = class Room {
 
   toPayload() {
     return {
+      roomCode: this.roomCode,
       gameState: this.gameState,
       users: this.users,
       questionStateTime: this.questionStateTime,
