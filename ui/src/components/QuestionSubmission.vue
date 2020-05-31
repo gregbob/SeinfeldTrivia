@@ -23,7 +23,8 @@ export default {
     }
   },
   methods: {
-    submitAnswer() {
+    submitAnswer(e) {
+      e.preventDefault();
       const payload = { answer: this.inputValue }
       this.$socket.emit('submitAnswer', payload, (response) => {
         // If response is true, disable submit box and wait for state update
