@@ -1,13 +1,16 @@
 <template>
   <div id="home">
-    <b-tabs content-class="mt-3">
-      <b-tab title="Join">
-        <join-form class="form"></join-form>
-      </b-tab>
-      <b-tab title="Host">
-        <host-form class="form"></host-form>
-      </b-tab>
-    </b-tabs>
+    <b-card class="m-2"> 
+      <b-tabs>
+        <b-tab title="Join">
+          <join-form class="form"></join-form>
+        </b-tab>
+        <b-tab title="Host">
+          <host-form class="form"></host-form>
+        </b-tab>
+      </b-tabs>
+    </b-card>
+
 
 
   </div>
