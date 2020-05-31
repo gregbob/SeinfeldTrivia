@@ -49,7 +49,7 @@ export default {
 
       // Add error condition 
       this.createRoom({
-        numberOfquestions: this.numberOfquestions,
+        numQuestions: this.numQuestions,
         questionStateTime: this.questionStateTime
       });
 

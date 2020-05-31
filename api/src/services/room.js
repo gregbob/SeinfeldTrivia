@@ -12,7 +12,7 @@ module.exports = class Room {
     this.roundTimeoutId = '';
 
     const { questions } = require('../assets/questions.json');
-    this.questions = this.getRandomSubset(options.numberOfQuestions, questions);
+    this.questions = this.getRandomSubset(options.numQuestions, questions);
     this.currentQuestionIndex = -1;
 
     this.onStateChangeCallback = onStateChangeCallback;
@@ -24,6 +24,7 @@ module.exports = class Room {
       size = array.length;
     }
 
+    logger(size);
     shuffle(array);
     return array.slice(0, size);
 
