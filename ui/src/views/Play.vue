@@ -1,11 +1,16 @@
 <template>
   <div id="play">
     <div v-if="currentGameState == GameState.SETUP">
-      Waiting for game to start.
+      <b-card class="m-2" :title="`Connected to ${room.roomCode}`">
+        <b-card-text> 
+          Waiting for game to start.
+        </b-card-text>
+      </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.QUESTION">
-      <question-display></question-display>
-      <question-submission></question-submission>
+      <b-card class="m-2" :title="currentQuestion"> 
+        <question-submission></question-submission>
+      </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
       Waiting for host to judge which answers are valid.
@@ -17,16 +22,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GameState from '../utils/gameState';
 import QuestionSubmission from '../components/QuestionSubmission'
-import QuestionDisplay from '../components/QuestionDisplay'
 
 export default {
   name: 'Play',
   components: {
     QuestionSubmission,
-    QuestionDisplay,
   },
   data() {
     return {
@@ -34,7 +37,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentGameState'])
+    ...mapState(['room']),
+    ...mapGetters(['currentGameState', 'currentQuestion'])
   }
 }
 </script>

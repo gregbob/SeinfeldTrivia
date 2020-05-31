@@ -1,8 +1,12 @@
 <template>
   <div id="question-submission">
       <div v-if="!submitted">
-        <input v-model="inputValue">
-        <button v-on:click="submitAnswer"> SUBMIT </button>
+        <b-form @submit="submitAnswer">      
+          <b-form-group>
+            <b-form-input v-model="inputValue" required placeholder="Enter answer..."></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary"> Submit </b-button>
+        </b-form>
       </div>
       <div v-else> 
         Answer submitted.
