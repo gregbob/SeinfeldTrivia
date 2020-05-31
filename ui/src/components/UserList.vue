@@ -34,6 +34,11 @@ export default {
       if (this.shouldDisplaySubmitted) {
         return this.userAnswers;
       }
+      if (this.showScore) {
+        return this.room.users.slice().sort((a, b) => {
+          return new Number(b.score) - new Number(a.score);
+        })
+      }
       return this.room.users;
     }
   }
