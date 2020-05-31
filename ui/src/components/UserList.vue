@@ -1,11 +1,11 @@
 <template>
   <div id="user-list">
-    <b-list-group> 
-      <user 
+    <b-list-group>  
+      <user class="mb-2"
       :displayAnswer="displayAnswer" 
-      :isJudgeable="isJudgeable" 
-      :shouldDisplaySubmitted="shouldDisplaySubmitted"
-      :user="user" v-for="user in room.users" :key="user.name"
+      :isJudgeable="isJudgeable"
+      :showScore="showScore"
+      :user="user" v-for="user in userList" :key="user.name"
       > 
       </user>
     </b-list-group>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import User from './User'
 
 export default {
@@ -25,15 +25,22 @@ export default {
     displayAnswer: Boolean,
     isJudgeable: Boolean,
     shouldDisplaySubmitted: Boolean,
+    showScore: Boolean
   },
   computed: {
-    ...mapState(['room'])
+    ...mapState(['room']),
+    ...mapGetters(['userAnswers']),
+    userList() {
+      if (this.shouldDisplaySubmitted) {
+        return this.userAnswers;
+      }
+      return this.room.users;
+    }
   }
 }
 </script>
 
 <style>
-
 span {
   font-size: 2em;
 }

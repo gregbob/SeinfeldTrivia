@@ -25,11 +25,10 @@
       </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
-      <ul>
-        <li v-for="user in users" :key="user.id" :user="user">
-          Name: {{ user.name }}, Score: {{ user.score }}
-        </li>
-      </ul>
+      <b-card class="m-2"> 
+        <h4> Results </h4>
+        <user-list class="mt-3" :showScore="true"> </user-list>
+      </b-card>
     </div>
   </div>
 </template>

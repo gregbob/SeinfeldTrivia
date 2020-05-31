@@ -18,6 +18,7 @@ Vue.use(BootstrapVue);
 Vue.use(new VueSocketIO({
   debug: true,
   connection: SocketIO('http://192.168.0.224:3000'),
+  // connection: SocketIO('https://api.seinfeldtrivia.app'),
   vuex: {
     store,
     actionPrefix: 'SOCKET_',

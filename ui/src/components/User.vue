@@ -1,16 +1,21 @@
 <template>
   <div id="user">
-      <b-list-group-item 
-        :button="isJudgeable" 
-        v-on:click="onClick" 
-        :variant="getVariant()" 
-        class="d-flex align-items-center"
-        >
-        <b-avatar size="3.5rem" :src="getRandomAvatar()"> </b-avatar>
-        <span class="ml-3"> {{ user.name }} </span>
-        <span v-if="displayAnswer">:</span>
-        <span v-if="displayAnswer" class="ml-3"> {{ user.currentAnswer }} </span>
-      </b-list-group-item>
+
+    <b-card
+    :bg-variant="backgroundColor()"
+    :text-variant="textColor()"
+    v-on:click="onClick"
+    img-left
+    img-width="128"
+    :img-src="getRandomAvatar()"
+    :title="user.name"> 
+      <b-card-text v-if="displayAnswer">
+        {{ user.currentAnswer }}
+      </b-card-text>
+      <b-card-text v-if="showScore">
+        {{ user.score }}
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
@@ -21,7 +26,7 @@ export default {
     user: Object,
     displayAnswer: Boolean,
     isJudgeable: Boolean,
-    shouldDisplaySubmitted: Boolean,
+    showScore: Boolean
   },
   methods: {
     getRandomAvatar() {
@@ -36,24 +41,36 @@ export default {
       return pics[randomInt];
     },
     onClick() {
+      console.log('///');
       if (this.isJudgeable) {
         this.user.validAnswer = !this.user.validAnswer;
       }
     },
     getVariant() {
-      console.log('hello', this.user, this.shouldDisplaySubmitted);
-      if (this.user.validAnswer || (this.shouldDisplaySubmitted && this.user.currentAnswer)) {
+      if (this.user.validAnswer) {
         return "success"
       }
       return "";
+    },
+    backgroundColor() {
+      if (this.user.validAnswer) {
+        return "primary"
+      }
+      return "";
+    },
+    textColor() {
+      if (this.user.validAnswer) {
+        return "white"
+      }
+      return "black";
     }
   }
 }
 </script>
 
 <style>
-
-span {
-  font-size: 2em;
+#user:hover {
+  cursor: pointer;
 }
+
 </style>
