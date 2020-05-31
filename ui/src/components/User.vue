@@ -7,7 +7,7 @@
     v-on:click="onClick"
     img-left
     img-width="96"
-    :img-src="getRandomAvatar()"
+    :img-src="require(`../assets/characters/${characterIcons[user.characterIndex]}`)"
     :title="user.name"> 
       <b-card-text v-if="displayAnswer">
         {{ user.currentAnswer }}
@@ -20,26 +20,22 @@
 </template>
 
 <script>
+import characterIcons from '../utils/characterIcon';
+
 export default {
   name: 'User',
   props: {
     user: Object,
     displayAnswer: Boolean,
     isJudgeable: Boolean,
-    showScore: Boolean
+    showScore: Boolean,
+  },
+  data() {
+    return {
+      characterIcons
+    }
   },
   methods: {
-    getRandomAvatar() {
-      const pics = [
-        "https://pbs.twimg.com/profile_images/699185091147276288/AQ0Otw5J_400x400.jpg",
-        "https://pbs.twimg.com/profile_images/725711186730299392/T8cczeWs_400x400.jpg",
-        "https://pbs.twimg.com/profile_images/2962448861/2b4a52fe49415cb7a7230caa0429acc5.jpeg",
-        "https://external-preview.redd.it/zIk5UgrZ6Q3sVNX_hNwHwcB0fKFiI0i7R6NnT7v8hgQ.jpg?auto=webp&s=191bd336c1fb43cf972b19f45922ec3d45e22f27"
-      ]
-      const randomInt = Math.floor(Math.random() * Math.floor(pics.length));
-
-      return pics[randomInt];
-    },
     onClick() {
       if (this.isJudgeable) {
         this.user.validAnswer = !this.user.validAnswer;
