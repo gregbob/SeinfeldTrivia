@@ -6,7 +6,7 @@
     :text-variant="textColor()"
     v-on:click="onClick"
     img-left
-    img-width="128"
+    img-width="96"
     :img-src="getRandomAvatar()"
     :title="user.name"> 
       <b-card-text v-if="displayAnswer">
@@ -41,7 +41,6 @@ export default {
       return pics[randomInt];
     },
     onClick() {
-      console.log('///');
       if (this.isJudgeable) {
         this.user.validAnswer = !this.user.validAnswer;
       }

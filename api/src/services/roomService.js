@@ -28,7 +28,7 @@ const validateRoomExists = (roomCode) => {
 }
 
 const addUser = function (roomCode, userInfo, id) {
-  const user = new User(userInfo.name, id);
+  const user = new User(userInfo.name, userInfo.characterIndex, id);
   const room = rooms[roomCode];
 
   rooms[roomCode].addUser(user);
