@@ -86,9 +86,7 @@ export default {
   cursor: pointer;
   background: #f8f9fa;
 }
-.clickable:active {
-  background: #007bff;
-}
+
 .selected {
   background: #007bff;
 }
