@@ -13,7 +13,7 @@
       </b-card>
     </div>
     <div v-else-if="currentGameState == GameState.JUDGEMENT">
-      <b-card class="m-2" title="Waiting for host to judge which answers are valid."> 
+      <b-card class="m-2" title="Waiting for host to judge."> 
       </b-card>   
     </div>
     <div v-else-if="currentGameState == GameState.RESULT">
